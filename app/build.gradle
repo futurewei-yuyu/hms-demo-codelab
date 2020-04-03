@@ -1,0 +1,64 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.huawei.agconnect'  // HUAWEI agconnect Gradle plugin
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
+
+    defaultConfig {
+        applicationId "hw.account.demo.huawei"
+        minSdkVersion 16
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        release {
+            storeFile file('demo.jks')
+            keyAlias 'hw-demo'
+            keyPassword 'Huawei123*'
+            storePassword 'Huawei123*'
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            signingConfig signingConfigs.release
+            debuggable true
+        }
+    }
+
+}
+
+dependencies {
+    ext.JUNIT_VERSION = '4.12'
+    ext.ESPRESSO_VERSION = '2.2.2'
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar',], dir: 'libs')
+    implementation "com.google.code.gson:gson:2.8.5"
+    implementation "com.squareup.okhttp3:okhttp:3.14.2"
+    implementation 'com.squareup.okio:okio:1.14.1'
+    implementation 'com.auth0:java-jwt:3.8.2'
+    implementation 'com.auth0:jwks-rsa:0.8.3'
+    implementation 'commons-codec:commons-codec:1.13'
+
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    implementation 'com.huawei.hms:hwid:4.0.0.300'
+    // push kit
+    implementation 'com.huawei.hms:push:4.0.0.300'
+}
